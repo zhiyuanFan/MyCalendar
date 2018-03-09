@@ -24,7 +24,7 @@ class WeekView: UIView {
         stackView.distribution = .fillEqually
         stackView.axis = .horizontal
         
-        let labelSize = CGSize(width: Config.screenWidth / 7, height: 30)
+        let labelSize = CGSize(width: Config.screenWidth / 7, height: 53)
         let weeks = ["日", "月", "火", "水", "木", "金", "土"]
         
         for i in 0..<7 {

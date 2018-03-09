@@ -77,7 +77,7 @@ class ViewController: UIViewController {
         headView.snp.makeConstraints { (make) in
             make.top.equalTo(0)
             make.left.right.equalTo(0)
-            make.height.equalTo(204)
+            make.height.equalTo(240)
         }
         
         year.snp.makeConstraints { (make) in
@@ -93,7 +93,7 @@ class ViewController: UIViewController {
         
         weekView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalTo(0)
-            make.height.equalTo(30)
+            make.height.equalTo(53)
         }
         
         calendarView.snp.makeConstraints { (make) in
@@ -182,7 +182,7 @@ extension ViewController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSo
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
         
-        let startDate = formatter.date(from: "2017 01 01")
+        let startDate = formatter.date(from: "2018 01 01")
         let endDate = formatter.date(from: "2018 12 31")
         let parameters = ConfigurationParameters(startDate: startDate!, endDate: endDate!)
         return parameters
