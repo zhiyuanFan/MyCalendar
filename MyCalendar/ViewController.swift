@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var weekView: WeekView!
     var calendarView: JTAppleCalendarView!
     var eventsFromLocal: [String : String]! = [:]
+    var currentMonth: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +87,7 @@ class ViewController: UIViewController {
         month.snp.makeConstraints { (make) in
             make.top.equalTo(year.snp.bottom).offset(10)
             make.left.equalTo(10)
+            make.right.equalTo(-10)
         }
         
         weekView.snp.makeConstraints { (make) in
@@ -109,12 +111,15 @@ class ViewController: UIViewController {
         formatter.dateFormat = "M"
         let monthNum = Int(formatter.string(from: date))!
         let months = ["いち", "に", "さん", "し", "ご", "ろく", "しち", "はち", "く", "じゅう", "じゅういち", "じゅうに"]
-        month.text = "\(monthNum) 月 (\(months[monthNum - 1])がつ)"
+        if currentMonth != formatter.string(from: date) {
+            cubeAnimate(targetView: month, flightInfo: "\(monthNum) 月 (\(months[monthNum - 1])がつ)")
+            currentMonth = formatter.string(from: date)
+        }
     }
     
-//    func handleCellVisiable(cell: CustomeCell, cellState: CellState) {
-//        cell.isHidden = cellState.dateBelongsTo == .thisMonth ? false : true
-//    }
+    func handleCellVisiable(cell: CustomeCell, cellState: CellState) {
+        cell.isHidden = cellState.dateBelongsTo == .thisMonth ? false : true
+    }
     
     func handleCellSelected(cell: CustomeCell, cellState: CellState) {
         cell.selectedView.isHidden = !cellState.isSelected
@@ -139,7 +144,7 @@ class ViewController: UIViewController {
     func configCalendarCell(cell: JTAppleCell?, cellState: CellState) {
         formatter.dateFormat = "yyyy MM dd"
         guard let validCell = cell as? CustomeCell else { return }
-//        handleCellVisiable(cell: validCell, cellState: cellState)
+        handleCellVisiable(cell: validCell, cellState: cellState)
         handleCellSelected(cell: validCell, cellState: cellState)
         handleCellTextColor(cell: validCell, cellState: cellState)
         handleCellEvent(cell: validCell, cellState: cellState)
@@ -188,7 +193,7 @@ extension ViewController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSo
     }
     
     func calendar(_ calendar: JTAppleCalendarView, willDisplay cell: JTAppleCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
-        
+        configCalendarCell(cell: cell, cellState: cellState)
     }
 }
 
@@ -202,6 +207,34 @@ extension ViewController {
             formatter.date(from: "2018 03 19")! : "日语等级考试报名",
             formatter.date(from: "2018 05 01")! : "劳动节"
         ]
+    }
+    
+    func cubeAnimate(targetView: UIView, flightInfo: String) {
+        let virtualTargetView = targetView as! UILabel
+        // 复制UIView，作为底面
+        let viewCopy = UILabel(frame: virtualTargetView.frame)
+        viewCopy.alpha = 0
+        viewCopy.text = flightInfo
+        viewCopy.font = virtualTargetView.font
+        viewCopy.textAlignment = virtualTargetView.textAlignment
+        viewCopy.textColor = virtualTargetView.textColor
+        viewCopy.backgroundColor = UIColor.clear
+        // 设置底面UIView的初始位置和高度
+        viewCopy.transform = CGAffineTransform(scaleX: 1.0, y: 0.1).concatenating(CGAffineTransform(translationX: 1.0, y: viewCopy.frame.height / 2))
+        self.headView.addSubview(viewCopy)
+        UIView.animate(withDuration: 0.5, animations: {
+            // 执行UIView和UIViewCopy的动画
+            virtualTargetView.transform =  CGAffineTransform(scaleX: 1.0, y: 0.1).concatenating(CGAffineTransform(translationX: 1.0, y: -virtualTargetView.frame.height / 2))
+            virtualTargetView.alpha = 0
+            viewCopy.alpha = 1
+            viewCopy.transform = CGAffineTransform.identity
+        }) { (isFinished) in
+            // 当动画执行完毕后，将UIViewCopy的信息赋值给UIView，并还原UIView的状态，即与UIViewCopy相同的状态，然后移除UIViewCopy
+            virtualTargetView.alpha = 1
+            virtualTargetView.text = viewCopy.text
+            virtualTargetView.transform = CGAffineTransform.identity //CGAffineTransformIdentity
+            viewCopy.removeFromSuperview()
+        }
     }
 }
 
