@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     var calendarView: JTAppleCalendarView!
     var eventsFromLocal: [String : String]! = [:]
     var currentMonth: String = ""
+    var currentYear: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,15 +106,33 @@ class ViewController: UIViewController {
     func configViewsWithDate(visibleDates: DateSegmentInfo) {
         let date = visibleDates.monthDates.first!.date
         
-        formatter.dateFormat = "yyyy"
-        year.text = formatter.string(from: date)
-        
         formatter.dateFormat = "M"
         let monthNum = Int(formatter.string(from: date))!
         let months = ["いち", "に", "さん", "し", "ご", "ろく", "しち", "はち", "く", "じゅう", "じゅういち", "じゅうに"]
-        if currentMonth != formatter.string(from: date) {
-            cubeAnimate(targetView: month, flightInfo: "\(monthNum) 月 (\(months[monthNum - 1])がつ)")
-            currentMonth = formatter.string(from: date)
+        if currentMonth != formatter.string(from: date) && currentMonth != "" {
+            cubeAnimate(targetLabel: month, info: "\(monthNum) 月 (\(months[monthNum - 1])がつ)", isUpForward: isNextMonth(date: date))
+        } else {
+            month.text = "\(monthNum) 月 (\(months[monthNum - 1])がつ)"
+        }
+        currentMonth = formatter.string(from: date)
+        
+        formatter.dateFormat = "yyyy"
+        if currentYear == "" || currentYear != formatter.string(from: date) {
+            year.text = formatter.string(from: date)
+            currentYear = formatter.string(from: date)
+        }
+    }
+    
+    func isNextMonth(date: Date) -> Bool {
+        formatter.dateFormat = "yyyy"
+        let newYear = formatter.string(from: date)
+        formatter.dateFormat = "M"
+        let newMonth = formatter.string(from: date)
+        
+        if currentYear == newYear {
+            return Int(newMonth)! > Int(currentMonth)!
+        } else {
+            return Int(newYear)! > Int(currentYear)!
         }
     }
     
@@ -163,7 +182,7 @@ extension ViewController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSo
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
         
-        let startDate = formatter.date(from: "2018 01 01")
+        let startDate = formatter.date(from: "2017 01 01")
         let endDate = formatter.date(from: "2018 12 31")
         let parameters = ConfigurationParameters(startDate: startDate!, endDate: endDate!)
         return parameters
@@ -209,31 +228,34 @@ extension ViewController {
         ]
     }
     
-    func cubeAnimate(targetView: UIView, flightInfo: String) {
-        let virtualTargetView = targetView as! UILabel
-        // 复制UIView，作为底面
-        let viewCopy = UILabel(frame: virtualTargetView.frame)
-        viewCopy.alpha = 0
-        viewCopy.text = flightInfo
-        viewCopy.font = virtualTargetView.font
-        viewCopy.textAlignment = virtualTargetView.textAlignment
-        viewCopy.textColor = virtualTargetView.textColor
-        viewCopy.backgroundColor = UIColor.clear
-        // 设置底面UIView的初始位置和高度
-        viewCopy.transform = CGAffineTransform(scaleX: 1.0, y: 0.1).concatenating(CGAffineTransform(translationX: 1.0, y: viewCopy.frame.height / 2))
-        self.headView.addSubview(viewCopy)
+    func cubeAnimate(targetLabel: UILabel, info: String, isUpForward: Bool) {
+
+        let labelCopy = UILabel(frame: targetLabel.frame)
+        labelCopy.alpha = 0
+        labelCopy.text = info
+        labelCopy.font = targetLabel.font
+        labelCopy.textAlignment = targetLabel.textAlignment
+        labelCopy.textColor = targetLabel.textColor
+        labelCopy.backgroundColor = UIColor.clear
+        let labelH2 = targetLabel.frame.size.height / 2
+        
+        let copyTY = isUpForward ? labelH2 : -labelH2
+        let targetTY = -copyTY
+        
+        labelCopy.transform = CGAffineTransform(scaleX: 1.0, y: 0.1).concatenating(CGAffineTransform(translationX: 1.0, y: copyTY))
+        self.headView.addSubview(labelCopy)
         UIView.animate(withDuration: 0.5, animations: {
-            // 执行UIView和UIViewCopy的动画
-            virtualTargetView.transform =  CGAffineTransform(scaleX: 1.0, y: 0.1).concatenating(CGAffineTransform(translationX: 1.0, y: -virtualTargetView.frame.height / 2))
-            virtualTargetView.alpha = 0
-            viewCopy.alpha = 1
-            viewCopy.transform = CGAffineTransform.identity
+
+            targetLabel.transform =  CGAffineTransform(scaleX: 1.0, y: 0.1).concatenating(CGAffineTransform(translationX: 1.0, y: targetTY))
+            targetLabel.alpha = 0
+            labelCopy.alpha = 1
+            labelCopy.transform = CGAffineTransform.identity
         }) { (isFinished) in
-            // 当动画执行完毕后，将UIViewCopy的信息赋值给UIView，并还原UIView的状态，即与UIViewCopy相同的状态，然后移除UIViewCopy
-            virtualTargetView.alpha = 1
-            virtualTargetView.text = viewCopy.text
-            virtualTargetView.transform = CGAffineTransform.identity //CGAffineTransformIdentity
-            viewCopy.removeFromSuperview()
+            // 当动画执行完毕后，将labelCopy的信息赋值给targetLabel，并还原targetLabel的状态，即与labelCopy相同的状态，然后移除labelCopy
+            targetLabel.alpha = 1
+            targetLabel.text = labelCopy.text
+            targetLabel.transform = CGAffineTransform.identity
+            labelCopy.removeFromSuperview()
         }
     }
 }
