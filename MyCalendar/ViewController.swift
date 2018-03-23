@@ -26,6 +26,7 @@ class ViewController: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics(rawValue: 0)!)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         
+        setupRightBarButton()
         setupSubViews()
         calendarView.visibleDates { (visibleDates) in
             self.configViewsWithDate(visibleDates: visibleDates)
@@ -36,6 +37,20 @@ class ViewController: UIViewController {
             let dateStr = formatter.string(from: date)
             eventsFromLocal[dateStr] = event
         }
+    }
+    
+    func setupRightBarButton() {
+        let addBtn = UIButton(type: .custom)
+        addBtn.setImage(UIImage(named:"icon_add"), for: .normal)
+        addBtn.addTarget(self, action: #selector(addBtnOnClick), for: .touchUpInside)
+        
+        let rightBar = UIBarButtonItem(customView: addBtn)
+        self.navigationItem.rightBarButtonItem = rightBar
+    }
+    
+    @objc func addBtnOnClick() {
+//        let detailVC = DateDetailViewController()
+//        self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func setupSubViews() {
@@ -258,5 +273,7 @@ extension ViewController {
             labelCopy.removeFromSuperview()
         }
     }
+    
+    
 }
 

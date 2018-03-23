@@ -27,6 +27,10 @@ class CustomeCell : JTAppleCell {
         selectedView = UIView()
         selectedView.isHidden = true
         selectedView.backgroundColor = Config.getColor(red: 255, green: 90, blue: 90)
+        selectedView.layer.shadowColor = Config.getColor(red: 255, green: 90, blue: 90).cgColor
+        selectedView.layer.shadowOpacity = 0.5
+        selectedView.layer.shadowRadius = 6
+        selectedView.layer.shadowOffset = CGSize.zero
         addSubview(selectedView)
         
         dateLabel = UILabel()
