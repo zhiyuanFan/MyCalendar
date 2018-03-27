@@ -22,6 +22,10 @@
 		074AD2F42050F7B00012629A /* SnapKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 074AD2F12050F47C0012629A /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		074AD2F62050F7C70012629A /* JTAppleCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 074AD2E92050F00C0012629A /* JTAppleCalendar.framework */; };
 		074AD2F72050F7C70012629A /* JTAppleCalendar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 074AD2E92050F00C0012629A /* JTAppleCalendar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		075619EF2069F25600781AF2 /* ViewController+Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075619EE2069F25600781AF2 /* ViewController+Navigation.swift */; };
+		075619F12069FF4100781AF2 /* DateDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075619F02069FF4100781AF2 /* DateDetailViewController.swift */; };
+		075619F3206A028700781AF2 /* CustomAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075619F2206A028700781AF2 /* CustomAnimator.swift */; };
+		075619F5206A282700781AF2 /* CustomInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075619F4206A282700781AF2 /* CustomInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +80,10 @@
 		074AD2ED2050F0FD0012629A /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		074AD2EF2050F2710012629A /* CustomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomeCell.swift; sourceTree = "<group>"; };
 		074AD2F12050F47C0012629A /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
+		075619EE2069F25600781AF2 /* ViewController+Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Navigation.swift"; sourceTree = "<group>"; };
+		075619F02069FF4100781AF2 /* DateDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDetailViewController.swift; sourceTree = "<group>"; };
+		075619F2206A028700781AF2 /* CustomAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimator.swift; sourceTree = "<group>"; };
+		075619F4206A282700781AF2 /* CustomInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +147,10 @@
 				074AD2ED2050F0FD0012629A /* Config.swift */,
 				074AD2EF2050F2710012629A /* CustomeCell.swift */,
 				073577962051166A00510DBC /* WeekView.swift */,
+				075619EE2069F25600781AF2 /* ViewController+Navigation.swift */,
+				075619F02069FF4100781AF2 /* DateDetailViewController.swift */,
+				075619F2206A028700781AF2 /* CustomAnimator.swift */,
+				075619F4206A282700781AF2 /* CustomInteractor.swift */,
 			);
 			path = MyCalendar;
 			sourceTree = "<group>";
@@ -306,9 +318,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				073577972051166A00510DBC /* WeekView.swift in Sources */,
+				075619F12069FF4100781AF2 /* DateDetailViewController.swift in Sources */,
+				075619F3206A028700781AF2 /* CustomAnimator.swift in Sources */,
+				075619EF2069F25600781AF2 /* ViewController+Navigation.swift in Sources */,
 				074AD2BD2050EF640012629A /* ViewController.swift in Sources */,
 				074AD2F02050F2710012629A /* CustomeCell.swift in Sources */,
 				074AD2EE2050F0FD0012629A /* Config.swift in Sources */,
+				075619F5206A282700781AF2 /* CustomInteractor.swift in Sources */,
 				074AD2BB2050EF640012629A /* AppDelegate.swift in Sources */,
 				074AD2EC2050F0BA0012629A /* Categories.swift in Sources */,
 			);

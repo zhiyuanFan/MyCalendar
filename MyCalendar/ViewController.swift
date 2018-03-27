@@ -20,13 +20,18 @@ class ViewController: UIViewController {
     var currentMonth: String = ""
     var currentYear: String = ""
     
+    //点击动画及返回界面 属性
+    var selectedFrame: CGRect?
+    var customInteractor: CustomInteractor?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics(rawValue: 0)!)
         self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.delegate = self
         
-        setupRightBarButton()
+//        setupRightBarButton()
         setupSubViews()
         calendarView.visibleDates { (visibleDates) in
             self.configViewsWithDate(visibleDates: visibleDates)
@@ -79,7 +84,9 @@ class ViewController: UIViewController {
         calendarView.backgroundColor = UIColor.white
         calendarView.scrollDirection = UICollectionViewScrollDirection.vertical
         calendarView.isPagingEnabled = true
-        calendarView.minimumLineSpacing = 0
+        let calendarH = Config.screenHeight - 240
+        let calendarW = Config.screenWidth
+        calendarView.minimumLineSpacing = (calendarH - calendarW) / 5
         calendarView.minimumInteritemSpacing = 0
         calendarView.showsVerticalScrollIndicator = false
         calendarView.showsHorizontalScrollIndicator = false
@@ -89,6 +96,7 @@ class ViewController: UIViewController {
     }
     
     func setupLayout() {
+        
         headView.snp.makeConstraints { (make) in
             make.top.equalTo(0)
             make.left.right.equalTo(0)
@@ -216,6 +224,11 @@ extension ViewController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSo
         if let event = eventsFromLocal[formatter.string(from: cellState.date)] {
             print(event)
         }
+        let indexPath = calendar.indexPath(for: cell!)
+        let attributeLayout: UICollectionViewLayoutAttributes = calendar.layoutAttributesForItem(at: indexPath!)!
+        selectedFrame = calendar.convert(attributeLayout.frame, to: calendar.superview)
+        let detailVC = DateDetailViewController()
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
