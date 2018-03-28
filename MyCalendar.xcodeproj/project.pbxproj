@@ -26,6 +26,7 @@
 		075619F12069FF4100781AF2 /* DateDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075619F02069FF4100781AF2 /* DateDetailViewController.swift */; };
 		075619F3206A028700781AF2 /* CustomAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075619F2206A028700781AF2 /* CustomAnimator.swift */; };
 		075619F5206A282700781AF2 /* CustomInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075619F4206A282700781AF2 /* CustomInteractor.swift */; };
+		075619FB206A569400781AF2 /* DateHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075619FA206A569400781AF2 /* DateHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		075619F02069FF4100781AF2 /* DateDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDetailViewController.swift; sourceTree = "<group>"; };
 		075619F2206A028700781AF2 /* CustomAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimator.swift; sourceTree = "<group>"; };
 		075619F4206A282700781AF2 /* CustomInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInteractor.swift; sourceTree = "<group>"; };
+		075619FA206A569400781AF2 /* DateHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,20 +139,15 @@
 		074AD2B92050EF640012629A /* MyCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				075619F9206A561F00781AF2 /* Other */,
+				075619F8206A561500781AF2 /* Model */,
+				075619F7206A560800781AF2 /* View */,
+				075619F6206A55FD00781AF2 /* Controller */,
 				074AD2BA2050EF640012629A /* AppDelegate.swift */,
-				074AD2BC2050EF640012629A /* ViewController.swift */,
 				074AD2BE2050EF640012629A /* Main.storyboard */,
 				074AD2C12050EF640012629A /* Assets.xcassets */,
 				074AD2C32050EF640012629A /* LaunchScreen.storyboard */,
 				074AD2C62050EF640012629A /* Info.plist */,
-				074AD2EB2050F0BA0012629A /* Categories.swift */,
-				074AD2ED2050F0FD0012629A /* Config.swift */,
-				074AD2EF2050F2710012629A /* CustomeCell.swift */,
-				073577962051166A00510DBC /* WeekView.swift */,
-				075619EE2069F25600781AF2 /* ViewController+Navigation.swift */,
-				075619F02069FF4100781AF2 /* DateDetailViewController.swift */,
-				075619F2206A028700781AF2 /* CustomAnimator.swift */,
-				075619F4206A282700781AF2 /* CustomInteractor.swift */,
 			);
 			path = MyCalendar;
 			sourceTree = "<group>";
@@ -180,6 +177,44 @@
 				074AD2E92050F00C0012629A /* JTAppleCalendar.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		075619F6206A55FD00781AF2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				074AD2BC2050EF640012629A /* ViewController.swift */,
+				075619EE2069F25600781AF2 /* ViewController+Navigation.swift */,
+				075619F02069FF4100781AF2 /* DateDetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		075619F7206A560800781AF2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				074AD2EF2050F2710012629A /* CustomeCell.swift */,
+				073577962051166A00510DBC /* WeekView.swift */,
+				075619FA206A569400781AF2 /* DateHeaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		075619F8206A561500781AF2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		075619F9206A561F00781AF2 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				074AD2EB2050F0BA0012629A /* Categories.swift */,
+				074AD2ED2050F0FD0012629A /* Config.swift */,
+				075619F2206A028700781AF2 /* CustomAnimator.swift */,
+				075619F4206A282700781AF2 /* CustomInteractor.swift */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -319,6 +354,7 @@
 			files = (
 				073577972051166A00510DBC /* WeekView.swift in Sources */,
 				075619F12069FF4100781AF2 /* DateDetailViewController.swift in Sources */,
+				075619FB206A569400781AF2 /* DateHeaderView.swift in Sources */,
 				075619F3206A028700781AF2 /* CustomAnimator.swift in Sources */,
 				075619EF2069F25600781AF2 /* ViewController+Navigation.swift in Sources */,
 				074AD2BD2050EF640012629A /* ViewController.swift in Sources */,

@@ -32,6 +32,7 @@ class ViewController: UIViewController {
         self.navigationController?.delegate = self
         
 //        setupRightBarButton()
+        setupBackButton()
         setupSubViews()
         calendarView.visibleDates { (visibleDates) in
             self.configViewsWithDate(visibleDates: visibleDates)
@@ -42,6 +43,16 @@ class ViewController: UIViewController {
             let dateStr = formatter.string(from: date)
             eventsFromLocal[dateStr] = event
         }
+    }
+    
+    func setupBackButton() {
+        let backBtn = UIButton(type: .custom)
+        let image = UIImage(named:"back")?.withRenderingMode(.alwaysOriginal)
+        backBtn.setImage(image, for: .normal)
+        
+        let backBar = UIBarButtonItem(customView: backBtn)
+        self.navigationItem.backBarButtonItem = backBar
+        self.navigationController?.navigationBar.tintColor = UIColor.white
     }
     
     func setupRightBarButton() {
@@ -131,11 +142,10 @@ class ViewController: UIViewController {
         
         formatter.dateFormat = "M"
         let monthNum = Int(formatter.string(from: date))!
-        let months = ["いち", "に", "さん", "し", "ご", "ろく", "しち", "はち", "く", "じゅう", "じゅういち", "じゅうに"]
         if currentMonth != formatter.string(from: date) && currentMonth != "" {
-            cubeAnimate(targetLabel: month, info: "\(monthNum) 月 (\(months[monthNum - 1])がつ)", isUpForward: isNextMonth(date: date))
+            cubeAnimate(targetLabel: month, info: Config.monthInfo(monthNum), isUpForward: isNextMonth(date: date))
         } else {
-            month.text = "\(monthNum) 月 (\(months[monthNum - 1])がつ)"
+            month.text = Config.monthInfo(monthNum)
         }
         currentMonth = formatter.string(from: date)
         
@@ -186,7 +196,7 @@ class ViewController: UIViewController {
     func configCalendarCell(cell: JTAppleCell?, cellState: CellState) {
         formatter.dateFormat = "yyyy MM dd"
         guard let validCell = cell as? CustomeCell else { return }
-        handleCellVisiable(cell: validCell, cellState: cellState)
+//        handleCellVisiable(cell: validCell, cellState: cellState)
         handleCellSelected(cell: validCell, cellState: cellState)
         handleCellTextColor(cell: validCell, cellState: cellState)
         handleCellEvent(cell: validCell, cellState: cellState)
@@ -228,6 +238,7 @@ extension ViewController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSo
         let attributeLayout: UICollectionViewLayoutAttributes = calendar.layoutAttributesForItem(at: indexPath!)!
         selectedFrame = calendar.convert(attributeLayout.frame, to: calendar.superview)
         let detailVC = DateDetailViewController()
+        detailVC.date = date
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     

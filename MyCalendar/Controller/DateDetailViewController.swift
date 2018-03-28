@@ -10,7 +10,8 @@ import UIKit
 
 class DateDetailViewController: UIViewController {
 
-    var headerView: UIView!
+    var headerView: DateHeaderView!
+    var date: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,12 +21,11 @@ class DateDetailViewController: UIViewController {
     }
     
     func setupSubViews() {
-        headerView = UIView(frame: CGRect(x: 0, y: 0, width: Config.screenWidth, height: Config.screenWidth))
-        headerView.backgroundColor = Config.getColor(red: 255, green: 90, blue: 90)
+        headerView = DateHeaderView(frame: CGRect(x: 0, y: 0, width: Config.screenWidth, height: Config.screenWidth))
+        if let date = self.date { headerView.setupInfo(date: date) }
         self.view.addSubview(headerView)
     }
     
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
