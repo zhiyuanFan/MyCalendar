@@ -58,7 +58,7 @@ class DateDetailViewController: UIViewController {
 
 extension DateDetailViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return 15
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -71,7 +71,7 @@ extension DateDetailViewController : UITableViewDelegate, UITableViewDataSource 
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y >= 240 {
+        if scrollView.contentOffset.y >= (240+44) {
             let result = ToolBox.getComponentsFromDate(date: self.date!)
             self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white,
                                                                             NSAttributedStringKey.font : UIFont.systemFont(ofSize: 23)]
@@ -85,5 +85,4 @@ extension DateDetailViewController : UITableViewDelegate, UITableViewDataSource 
             self.navigationController?.navigationBar.shadowImage = UIImage()
         }
     }
-    
 }

@@ -21,6 +21,7 @@ class EventCell: UITableViewCell {
         self.layer.shadowOpacity = 0.5
         self.layer.shadowColor = UIColor.lightGray.cgColor
         self.layer.shadowOffset = CGSize(width: 0, height: 2)
+//        self.layer.shouldRasterize = true
         self.selectionStyle = .none
         setupSubViews()
     }
