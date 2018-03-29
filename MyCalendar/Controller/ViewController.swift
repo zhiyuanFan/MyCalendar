@@ -31,7 +31,6 @@ class ViewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.delegate = self
         
-//        setupRightBarButton()
         setupBackButton()
         setupSubViews()
         calendarView.visibleDates { (visibleDates) in
@@ -53,20 +52,6 @@ class ViewController: UIViewController {
         let backBar = UIBarButtonItem(customView: backBtn)
         self.navigationItem.backBarButtonItem = backBar
         self.navigationController?.navigationBar.tintColor = UIColor.white
-    }
-    
-    func setupRightBarButton() {
-        let addBtn = UIButton(type: .custom)
-        addBtn.setImage(UIImage(named:"icon_add"), for: .normal)
-        addBtn.addTarget(self, action: #selector(addBtnOnClick), for: .touchUpInside)
-        
-        let rightBar = UIBarButtonItem(customView: addBtn)
-        self.navigationItem.rightBarButtonItem = rightBar
-    }
-    
-    @objc func addBtnOnClick() {
-//        let detailVC = DateDetailViewController()
-//        self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func setupSubViews() {
@@ -97,7 +82,7 @@ class ViewController: UIViewController {
         calendarView.isPagingEnabled = true
         let calendarH = Config.screenHeight - 240
         let calendarW = Config.screenWidth
-        calendarView.minimumLineSpacing = (calendarH - calendarW) / 5
+        calendarView.minimumLineSpacing = (calendarH - calendarW) / 6
         calendarView.minimumInteritemSpacing = 0
         calendarView.showsVerticalScrollIndicator = false
         calendarView.showsHorizontalScrollIndicator = false

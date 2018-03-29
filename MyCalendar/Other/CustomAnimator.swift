@@ -46,7 +46,7 @@ class CustomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         container.addSubview(replaceTransView)
         replaceTransView.layoutIfNeeded()
         
-        let scale: CGFloat = self.isPresenting ? 0.5 : 1.0
+        let scale: CGFloat = self.isPresenting ? 0.3 : 1.0
         replaceTransView.dateLabel.transform = CGAffineTransform(scaleX: scale, y: scale)
         
         toView.frame = isPresenting ? CGRect(x: fromView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height) : toView.frame
@@ -58,7 +58,7 @@ class CustomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             replaceTransView.layer.cornerRadius = replaceTransView.frame.size.width / 2
             replaceTransView.layer.masksToBounds = true
             replaceTransView.layoutIfNeeded()
-            let scale: CGFloat = self.isPresenting ? 1.0 : 0.5
+            let scale: CGFloat = self.isPresenting ? 1.0 : 0.3
             replaceTransView.dateLabel.transform = CGAffineTransform(scaleX: scale, y: scale)
             detailView.frame = self.isPresenting ? fromView.frame : CGRect(x: toView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height)
             detailView.alpha = self.isPresenting ? 1 : 0

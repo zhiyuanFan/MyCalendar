@@ -36,7 +36,7 @@ class DateHeaderView: UIView {
         addSubview(weekJPLabel)
         
         dateLabel = UILabel()
-        dateLabel.font = UIFont.systemFont(ofSize: 40)
+        dateLabel.font = UIFont.systemFont(ofSize: 60)
         dateLabel.textColor = UIColor.white
         addSubview(dateLabel)
         
@@ -81,16 +81,12 @@ class DateHeaderView: UIView {
     }
     
     func setupInfo(date: Date) {
-        let components = Calendar.autoupdatingCurrent.dateComponents([.weekday, .day, .year, .month], from: date)
-        guard let weekday = components.weekday else { return }
-        guard let day = components.day else { return }
-        guard let year = components.year else { return }
-        guard let month = components.month else { return }
-        dateLabel.text = "\(day)"
-        dateJPLabel.text = Config.days[day - 1]
-        weekLabel.text = Config.weekdayInfos[weekday - 1]
-        weekJPLabel.text = Config.weekdaysTranslation[weekday - 1]
-        tipLabel.text = "\(year) / \(month)"
+        let result = ToolBox.getComponentsFromDate(date: date)
+        dateLabel.text = "\(result.day)"
+        dateJPLabel.text = Config.days[result.day - 1]
+        weekLabel.text = Config.weekdayInfos[result.weekday - 1]
+        weekJPLabel.text = Config.weekdaysTranslation[result.weekday - 1]
+        tipLabel.text = "\(result.year) / \(result.month)"
     }
     
     required init?(coder aDecoder: NSCoder) {

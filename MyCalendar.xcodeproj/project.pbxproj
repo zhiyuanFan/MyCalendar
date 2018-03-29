@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		071346CA206BB1430099A0B5 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071346C9206BB1430099A0B5 /* EventCell.swift */; };
+		071346CC206CA0D10099A0B5 /* ToolBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071346CB206CA0D10099A0B5 /* ToolBox.swift */; };
 		073577972051166A00510DBC /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073577962051166A00510DBC /* WeekView.swift */; };
 		074AD2BB2050EF640012629A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074AD2BA2050EF640012629A /* AppDelegate.swift */; };
 		074AD2BD2050EF640012629A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074AD2BC2050EF640012629A /* ViewController.swift */; };
@@ -62,6 +64,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		071346C9206BB1430099A0B5 /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		071346CB206CA0D10099A0B5 /* ToolBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBox.swift; sourceTree = "<group>"; };
 		073577962051166A00510DBC /* WeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekView.swift; sourceTree = "<group>"; };
 		074AD2B72050EF640012629A /* MyCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		074AD2BA2050EF640012629A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -195,6 +199,7 @@
 				074AD2EF2050F2710012629A /* CustomeCell.swift */,
 				073577962051166A00510DBC /* WeekView.swift */,
 				075619FA206A569400781AF2 /* DateHeaderView.swift */,
+				071346C9206BB1430099A0B5 /* EventCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -213,6 +218,7 @@
 				074AD2ED2050F0FD0012629A /* Config.swift */,
 				075619F2206A028700781AF2 /* CustomAnimator.swift */,
 				075619F4206A282700781AF2 /* CustomInteractor.swift */,
+				071346CB206CA0D10099A0B5 /* ToolBox.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -356,11 +362,13 @@
 				075619F12069FF4100781AF2 /* DateDetailViewController.swift in Sources */,
 				075619FB206A569400781AF2 /* DateHeaderView.swift in Sources */,
 				075619F3206A028700781AF2 /* CustomAnimator.swift in Sources */,
+				071346CA206BB1430099A0B5 /* EventCell.swift in Sources */,
 				075619EF2069F25600781AF2 /* ViewController+Navigation.swift in Sources */,
 				074AD2BD2050EF640012629A /* ViewController.swift in Sources */,
 				074AD2F02050F2710012629A /* CustomeCell.swift in Sources */,
 				074AD2EE2050F0FD0012629A /* Config.swift in Sources */,
 				075619F5206A282700781AF2 /* CustomInteractor.swift in Sources */,
+				071346CC206CA0D10099A0B5 /* ToolBox.swift in Sources */,
 				074AD2BB2050EF640012629A /* AppDelegate.swift in Sources */,
 				074AD2EC2050F0BA0012629A /* Categories.swift in Sources */,
 			);
@@ -528,6 +536,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z29WM7HMUE;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -547,6 +556,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z29WM7HMUE;
 				FRAMEWORK_SEARCH_PATHS = (
