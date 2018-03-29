@@ -71,7 +71,8 @@ extension DateDetailViewController : UITableViewDelegate, UITableViewDataSource 
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y >= (240+44) {
+        print(scrollView.contentOffset.y)
+        if scrollView.contentOffset.y >= (Config.screenWidth-128) {
             let result = ToolBox.getComponentsFromDate(date: self.date!)
             self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white,
                                                                             NSAttributedStringKey.font : UIFont.systemFont(ofSize: 23)]
