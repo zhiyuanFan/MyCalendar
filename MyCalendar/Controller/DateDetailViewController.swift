@@ -46,8 +46,14 @@ class DateDetailViewController: UIViewController {
         eventTableView.showsHorizontalScrollIndicator = false
         eventTableView.tableHeaderView = headerView
         eventTableView.separatorStyle = .none
+        eventTableView.backgroundColor = UIColor.clear
+        eventTableView.bounces = false
         eventTableView.register(EventCell.self, forCellReuseIdentifier: EventCell.className)
         self.view.addSubview(eventTableView)
+        
+        let lineView = UIView(frame: CGRect(x: 35, y: 0, width: 1, height: eventTableView.contentSize.height))
+        lineView.backgroundColor = Config.getColor(red: 130, green: 219, blue: 5)
+        self.view.insertSubview(lineView, belowSubview: eventTableView)
     }
     
     override func didReceiveMemoryWarning() {
@@ -71,8 +77,8 @@ extension DateDetailViewController : UITableViewDelegate, UITableViewDataSource 
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.y)
         if scrollView.contentOffset.y >= (Config.screenWidth-128) {
+            if self.navigationItem.title != "" { return }
             let result = ToolBox.getComponentsFromDate(date: self.date!)
             self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white,
                                                                             NSAttributedStringKey.font : UIFont.systemFont(ofSize: 23)]
@@ -81,6 +87,7 @@ extension DateDetailViewController : UITableViewDelegate, UITableViewDataSource 
             self.navigationController?.navigationBar.setBackgroundImage(image, for: UIBarMetrics(rawValue: 0)!)
             self.navigationController?.navigationBar.shadowImage = UIImage()
         } else {
+            if self.navigationItem.title == "" { return }
             self.navigationItem.title = ""
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics(rawValue: 0)!)
             self.navigationController?.navigationBar.shadowImage = UIImage()

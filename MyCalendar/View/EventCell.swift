@@ -44,17 +44,16 @@ class EventCell: UITableViewCell {
     }
     
     func setupLayout() {
-        cycleView.snp.makeConstraints { (make) in
-            make.top.equalTo(5)
-            make.left.equalTo(30)
-            make.size.equalTo(CGSize(width: 10, height: 10))
+        lineView.snp.makeConstraints { (make) in
+            make.top.bottom.equalTo(0)
+            make.left.equalTo(35)
+            make.width.equalTo(1)
         }
         
-        lineView.snp.makeConstraints { (make) in
-            make.top.equalTo(cycleView.snp.bottom).offset(5)
-            make.centerX.equalTo(cycleView.snp.centerX)
-            make.width.equalTo(1)
-            make.bottom.equalTo(-5)
+        cycleView.snp.makeConstraints { (make) in
+            make.top.equalTo(15)
+            make.centerX.equalTo(lineView.snp.centerX)
+            make.size.equalTo(CGSize(width: 10, height: 10))
         }
         
         contentLabel.snp.makeConstraints { (make) in
