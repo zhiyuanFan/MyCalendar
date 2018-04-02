@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
 class DateDetailViewController: UIViewController {
 
     var headerView: DateHeaderView!
     var date: Date?
     var eventTableView: UITableView!
+    var dataArray: [Events]?
+    var lineView: UIView!
+    var blankView: BlankView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +24,24 @@ class DateDetailViewController: UIViewController {
         self.automaticallyAdjustsScrollViewInsets = false
         setupRightBarButton()
         setupSubViews()
+        if let date = self.date {
+            fetchEvents(date: date)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        lineView.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        lineView.isHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        lineView.isHidden = false
     }
     
     func setupRightBarButton() {
@@ -51,9 +73,11 @@ class DateDetailViewController: UIViewController {
         eventTableView.register(EventCell.self, forCellReuseIdentifier: EventCell.className)
         self.view.addSubview(eventTableView)
         
-        let lineView = UIView(frame: CGRect(x: 35, y: 0, width: 1, height: eventTableView.contentSize.height))
+        lineView = UIView(frame: CGRect(x: 35, y: 0, width: 1, height: eventTableView.contentSize.height))
         lineView.backgroundColor = Config.getColor(red: 130, green: 219, blue: 5)
         self.view.insertSubview(lineView, belowSubview: eventTableView)
+        
+        blankView = BlankView(frame: CGRect(x: 0, y: Config.screenWidth, width: Config.screenWidth, height: Config.screenHeight - Config.screenWidth))
     }
     
     override func didReceiveMemoryWarning() {
@@ -64,11 +88,13 @@ class DateDetailViewController: UIViewController {
 
 extension DateDetailViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return self.dataArray?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: EventCell.className) as! EventCell
+        let event = self.dataArray?[indexPath.row]
+        cell.contentLabel.text = event?.content
         return cell
     }
     
@@ -91,6 +117,33 @@ extension DateDetailViewController : UITableViewDelegate, UITableViewDataSource 
             self.navigationItem.title = ""
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics(rawValue: 0)!)
             self.navigationController?.navigationBar.shadowImage = UIImage()
+        }
+    }
+}
+
+//Event Data
+extension DateDetailViewController {
+    func fetchEvents(date: Date) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy MM dd"
+        let dateStr = formatter.string(from: date)
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Events")
+        request.predicate = NSPredicate(format: "create_time == %@", dateStr)
+        do {
+            let array = try DBHelper.shared.manageObjectContext.fetch(request) as! [Events]
+            if array.count != 0 {
+                self.dataArray = [Events]()
+                self.dataArray = array
+                DispatchQueue.main.async {
+                    self.eventTableView.reloadData()
+                    self.lineView.frame = CGRect(x: 35, y: 0, width: 1, height: self.eventTableView.contentSize.height)
+                }
+            } else {
+                eventTableView.addSubview(blankView)
+            }
+        } catch let error as NSError {
+            print("DateDetailViewController fetch error : \(error)")
         }
     }
 }

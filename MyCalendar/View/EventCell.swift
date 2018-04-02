@@ -36,7 +36,7 @@ class EventCell: UITableViewCell {
         addSubview(cycleView)
         
         contentLabel = UILabel()
-        contentLabel.text = "this is a content label"
+//        contentLabel.text = "this is a content label"
         contentLabel.textColor = UIColor.lightGray
         addSubview(contentLabel)
         

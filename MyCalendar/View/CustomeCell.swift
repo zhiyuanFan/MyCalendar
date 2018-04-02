@@ -12,6 +12,8 @@ import SnapKit
 
 class CustomeCell : JTAppleCell {
     
+    static var className: String = "CustomeCell"
+    
     var selectedView: UIView!
     var dateLabel: UILabel!
     var eventView: UIView!
@@ -24,7 +26,7 @@ class CustomeCell : JTAppleCell {
     
     func setupSubViews() {
 
-        selectedView = UIView()
+        selectedView = UIView()        
         selectedView.isHidden = true
         selectedView.backgroundColor = Config.getColor(red: 255, green: 90, blue: 90)
         selectedView.layer.shadowColor = Config.getColor(red: 255, green: 90, blue: 90).cgColor

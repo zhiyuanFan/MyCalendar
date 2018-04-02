@@ -8,6 +8,7 @@
 
 import UIKit
 import JTAppleCalendar
+import CoreData
 
 class ViewController: UIViewController {
     let formatter = DateFormatter()
@@ -37,17 +38,18 @@ class ViewController: UIViewController {
             self.configViewsWithDate(visibleDates: visibleDates)
         }
         
-        let eventObjects = getLocalNoteData()
-        for (date, event) in eventObjects {
-            let dateStr = formatter.string(from: date)
-            eventsFromLocal[dateStr] = event
+//        insertEvent()
+        
+        guard let eventObjects = fetchEvents() else { return }
+        for event in eventObjects {
+            let dateStr = event.create_time!
+            eventsFromLocal[dateStr] = event.content
         }
     }
     
     func setupBackButton() {
         let backBtn = UIButton(type: .custom)
-        let image = UIImage(named:"back")?.withRenderingMode(.alwaysOriginal)
-        backBtn.setImage(image, for: .normal)
+        backBtn.setImage(UIImage(named:"back"), for: .normal)
         
         let backBar = UIBarButtonItem(customView: backBtn)
         self.navigationItem.backBarButtonItem = backBar
@@ -74,7 +76,7 @@ class ViewController: UIViewController {
         headView.addSubview(weekView)
         
         calendarView = JTAppleCalendarView()
-        calendarView.register(CustomeCell.self, forCellWithReuseIdentifier: "CustomeCell")
+        calendarView.register(CustomeCell.self, forCellWithReuseIdentifier: CustomeCell.className)
         calendarView.calendarDelegate = self
         calendarView.calendarDataSource = self
         calendarView.backgroundColor = UIColor.white
@@ -181,7 +183,7 @@ class ViewController: UIViewController {
     func configCalendarCell(cell: JTAppleCell?, cellState: CellState) {
         formatter.dateFormat = "yyyy MM dd"
         guard let validCell = cell as? CustomeCell else { return }
-//        handleCellVisiable(cell: validCell, cellState: cellState)
+        // handleCellVisiable(cell: validCell, cellState: cellState)
         handleCellSelected(cell: validCell, cellState: cellState)
         handleCellTextColor(cell: validCell, cellState: cellState)
         handleCellEvent(cell: validCell, cellState: cellState)
@@ -208,7 +210,7 @@ extension ViewController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSo
     
     
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
-        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomeCell", for: indexPath) as! CustomeCell
+        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: CustomeCell.className, for: indexPath) as! CustomeCell
         cell.dateLabel.text = cellState.text
         configCalendarCell(cell: cell, cellState: cellState)
         return cell
@@ -241,16 +243,33 @@ extension ViewController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSo
 }
 
 extension ViewController {
-    func getLocalNoteData() -> [Date : String] {
-        formatter.dateFormat = "yyyy MM dd"
-        
-        return [
-            formatter.date(from: "2018 01 01")! : "元旦",
-            formatter.date(from: "2018 03 06")! : "日语等级考试注册",
-            formatter.date(from: "2018 03 19")! : "日语等级考试报名",
-            formatter.date(from: "2018 05 01")! : "劳动节"
-        ]
+    
+    func fetchEvents() -> [Events]? {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Events")
+        request.sortDescriptors = [NSSortDescriptor(key: "create_time", ascending: false)]
+        do {
+            if let array = try DBHelper.shared.manageObjectContext.fetch(request) as? [Events], array.count != 0 {
+                return array
+            }
+        } catch let error as NSError {
+            print("fetch Error: \(error)")
+        }
+        return nil
     }
+    
+    func insertEvent() {
+        guard let entity = NSEntityDescription.entity(forEntityName: "Events", in: DBHelper.shared.manageObjectContext) else { return }
+        let event = NSManagedObject(entity: entity, insertInto: DBHelper.shared.manageObjectContext)
+        event.setValue("first content", forKey: "content")
+        let dateStr = formatter.string(from: Date())
+        event.setValue(dateStr, forKey: "create_time")
+        do {
+            try DBHelper.shared.manageObjectContext.save()
+        } catch let error as NSError {
+            print("insert evnet error: \(error)")
+        }
+    }
+    
     
     func cubeAnimate(targetLabel: UILabel, info: String, isUpForward: Bool) {
 

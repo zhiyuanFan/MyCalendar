@@ -9,7 +9,11 @@
 /* Begin PBXBuildFile section */
 		071346CA206BB1430099A0B5 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071346C9206BB1430099A0B5 /* EventCell.swift */; };
 		071346CC206CA0D10099A0B5 /* ToolBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071346CB206CA0D10099A0B5 /* ToolBox.swift */; };
+		071346CF206E46B10099A0B5 /* MyCalendarDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 071346CD206E46B10099A0B5 /* MyCalendarDB.xcdatamodeld */; };
+		071346D2206E477B0099A0B5 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071346D1206E477B0099A0B5 /* DBHelper.swift */; };
+		071346D4206E4C160099A0B5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 071346D3206E4C160099A0B5 /* CoreData.framework */; };
 		073577972051166A00510DBC /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073577962051166A00510DBC /* WeekView.swift */; };
+		0748C29120722F5A009B686D /* BlankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0748C29020722F5A009B686D /* BlankView.swift */; };
 		074AD2BB2050EF640012629A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074AD2BA2050EF640012629A /* AppDelegate.swift */; };
 		074AD2BD2050EF640012629A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074AD2BC2050EF640012629A /* ViewController.swift */; };
 		074AD2C02050EF640012629A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 074AD2BE2050EF640012629A /* Main.storyboard */; };
@@ -66,7 +70,11 @@
 /* Begin PBXFileReference section */
 		071346C9206BB1430099A0B5 /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		071346CB206CA0D10099A0B5 /* ToolBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBox.swift; sourceTree = "<group>"; };
+		071346CE206E46B10099A0B5 /* MyCalendarDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyCalendarDB.xcdatamodel; sourceTree = "<group>"; };
+		071346D1206E477B0099A0B5 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		071346D3206E4C160099A0B5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		073577962051166A00510DBC /* WeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekView.swift; sourceTree = "<group>"; };
+		0748C29020722F5A009B686D /* BlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankView.swift; sourceTree = "<group>"; };
 		074AD2B72050EF640012629A /* MyCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		074AD2BA2050EF640012629A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		074AD2BC2050EF640012629A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				071346D4206E4C160099A0B5 /* CoreData.framework in Frameworks */,
 				074AD2F32050F7B00012629A /* SnapKit.framework in Frameworks */,
 				074AD2F62050F7C70012629A /* JTAppleCalendar.framework in Frameworks */,
 			);
@@ -119,6 +128,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		071346D0206E47530099A0B5 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				071346CD206E46B10099A0B5 /* MyCalendarDB.xcdatamodeld */,
+				071346D1206E477B0099A0B5 /* DBHelper.swift */,
+			);
+			path = DB;
+			sourceTree = "<group>";
+		};
 		074AD2AE2050EF640012629A = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +161,7 @@
 		074AD2B92050EF640012629A /* MyCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				071346D0206E47530099A0B5 /* DB */,
 				075619F9206A561F00781AF2 /* Other */,
 				075619F8206A561500781AF2 /* Model */,
 				075619F7206A560800781AF2 /* View */,
@@ -177,6 +196,7 @@
 		074AD2E82050F00C0012629A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				071346D3206E4C160099A0B5 /* CoreData.framework */,
 				074AD2F12050F47C0012629A /* SnapKit.framework */,
 				074AD2E92050F00C0012629A /* JTAppleCalendar.framework */,
 			);
@@ -200,6 +220,7 @@
 				073577962051166A00510DBC /* WeekView.swift */,
 				075619FA206A569400781AF2 /* DateHeaderView.swift */,
 				071346C9206BB1430099A0B5 /* EventCell.swift */,
+				0748C29020722F5A009B686D /* BlankView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -365,10 +386,13 @@
 				071346CA206BB1430099A0B5 /* EventCell.swift in Sources */,
 				075619EF2069F25600781AF2 /* ViewController+Navigation.swift in Sources */,
 				074AD2BD2050EF640012629A /* ViewController.swift in Sources */,
+				071346D2206E477B0099A0B5 /* DBHelper.swift in Sources */,
+				071346CF206E46B10099A0B5 /* MyCalendarDB.xcdatamodeld in Sources */,
 				074AD2F02050F2710012629A /* CustomeCell.swift in Sources */,
 				074AD2EE2050F0FD0012629A /* Config.swift in Sources */,
 				075619F5206A282700781AF2 /* CustomInteractor.swift in Sources */,
 				071346CC206CA0D10099A0B5 /* ToolBox.swift in Sources */,
+				0748C29120722F5A009B686D /* BlankView.swift in Sources */,
 				074AD2BB2050EF640012629A /* AppDelegate.swift in Sources */,
 				074AD2EC2050F0BA0012629A /* Categories.swift in Sources */,
 			);
@@ -674,6 +698,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		071346CD206E46B10099A0B5 /* MyCalendarDB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				071346CE206E46B10099A0B5 /* MyCalendarDB.xcdatamodel */,
+			);
+			currentVersion = 071346CE206E46B10099A0B5 /* MyCalendarDB.xcdatamodel */;
+			path = MyCalendarDB.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 074AD2AF2050EF640012629A /* Project object */;
 }
