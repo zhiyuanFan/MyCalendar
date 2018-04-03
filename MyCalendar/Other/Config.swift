@@ -44,4 +44,8 @@ class Config {
     class func monthInfo(_ index: Int) -> String {
         return "\(index) 月 (\(months[index - 1])がつ)"
     }
+    
+    static var handleEventNotification: String {
+        return "handleEventNotification"
+    }
 }

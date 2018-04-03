@@ -17,13 +17,18 @@ class ViewController: UIViewController {
     var month: UILabel!
     var weekView: WeekView!
     var calendarView: JTAppleCalendarView!
-    var eventsFromLocal: [String : String]! = [:]
+    var eventsFromLocal: [String] = [String]()
     var currentMonth: String = ""
     var currentYear: String = ""
     
     //点击动画及返回界面 属性
     var selectedFrame: CGRect?
     var customInteractor: CustomInteractor?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleEventNotification), name: NSNotification.Name(rawValue: Config.handleEventNotification), object: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,14 +42,7 @@ class ViewController: UIViewController {
         calendarView.visibleDates { (visibleDates) in
             self.configViewsWithDate(visibleDates: visibleDates)
         }
-        
-//        insertEvent()
-        
-        guard let eventObjects = fetchEvents() else { return }
-        for event in eventObjects {
-            let dateStr = event.create_time!
-            eventsFromLocal[dateStr] = event.content
-        }
+        fetchEventsData()
     }
     
     func setupBackButton() {
@@ -177,7 +175,7 @@ class ViewController: UIViewController {
     }
     
     func handleCellEvent(cell: CustomeCell, cellState: CellState) {
-        cell.eventView.isHidden = !eventsFromLocal.contains { $0.key == formatter.string(from: cellState.date) }
+        cell.eventView.isHidden = !eventsFromLocal.contains(formatter.string(from: cellState.date))
     }
     
     func configCalendarCell(cell: JTAppleCell?, cellState: CellState) {
@@ -187,6 +185,15 @@ class ViewController: UIViewController {
         handleCellSelected(cell: validCell, cellState: cellState)
         handleCellTextColor(cell: validCell, cellState: cellState)
         handleCellEvent(cell: validCell, cellState: cellState)
+    }
+    
+    func fetchEventsData() {
+        eventsFromLocal = DBHelper.fetchEventsDateSet()
+    }
+    
+    @objc func handleEventNotification() {
+        fetchEventsData()
+        calendarView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -218,9 +225,6 @@ extension ViewController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSo
     
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         configCalendarCell(cell: cell, cellState: cellState)
-        if let event = eventsFromLocal[formatter.string(from: cellState.date)] {
-            print(event)
-        }
         let indexPath = calendar.indexPath(for: cell!)
         let attributeLayout: UICollectionViewLayoutAttributes = calendar.layoutAttributesForItem(at: indexPath!)!
         selectedFrame = calendar.convert(attributeLayout.frame, to: calendar.superview)
@@ -243,34 +247,7 @@ extension ViewController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSo
 }
 
 extension ViewController {
-    
-    func fetchEvents() -> [Events]? {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Events")
-        request.sortDescriptors = [NSSortDescriptor(key: "create_time", ascending: false)]
-        do {
-            if let array = try DBHelper.shared.manageObjectContext.fetch(request) as? [Events], array.count != 0 {
-                return array
-            }
-        } catch let error as NSError {
-            print("fetch Error: \(error)")
-        }
-        return nil
-    }
-    
-    func insertEvent() {
-        guard let entity = NSEntityDescription.entity(forEntityName: "Events", in: DBHelper.shared.manageObjectContext) else { return }
-        let event = NSManagedObject(entity: entity, insertInto: DBHelper.shared.manageObjectContext)
-        event.setValue("first content", forKey: "content")
-        let dateStr = formatter.string(from: Date())
-        event.setValue(dateStr, forKey: "create_time")
-        do {
-            try DBHelper.shared.manageObjectContext.save()
-        } catch let error as NSError {
-            print("insert evnet error: \(error)")
-        }
-    }
-    
-    
+
     func cubeAnimate(targetLabel: UILabel, info: String, isUpForward: Bool) {
 
         let labelCopy = UILabel(frame: targetLabel.frame)

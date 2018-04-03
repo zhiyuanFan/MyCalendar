@@ -16,12 +16,13 @@ class DateDetailViewController: UIViewController {
     var eventTableView: UITableView!
     var dataArray: [Events]?
     var lineView: UIView!
-    var blankView: BlankView!
+    var blankView: BlankView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.automaticallyAdjustsScrollViewInsets = false
+        self.dataArray = [Events]()
         setupRightBarButton()
         setupSubViews()
         if let date = self.date {
@@ -45,7 +46,7 @@ class DateDetailViewController: UIViewController {
     }
     
     func setupRightBarButton() {
-        let addBtn = UIButton(type: .custom)
+        let addBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         addBtn.setImage(UIImage(named:"icon_add"), for: .normal)
         addBtn.addTarget(self, action: #selector(addBtnOnClick), for: .touchUpInside)
         
@@ -54,7 +55,18 @@ class DateDetailViewController: UIViewController {
     }
     
     @objc func addBtnOnClick() {
-        
+        guard let event = DBHelper.insertEvent(content: "test lllala", date: self.date!) else { return }
+        dataArray?.append(event)
+        let indexPath = IndexPath(item: (dataArray?.count)! - 1, section: 0)
+        if let _ = self.blankView { self.blankView?.removeFromSuperview() }
+        self.eventTableView.insertRows(at: [indexPath], with: .automatic)
+        UIView.animate(withDuration: 0.3) {
+            self.lineView.frame = CGRect(x: 35, y: 0, width: 1, height: self.eventTableView.contentSize.height)
+            self.eventTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+        if dataArray?.count == 1 {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.handleEventNotification), object: nil)
+        }
     }
     
     func setupSubViews() {
@@ -76,8 +88,6 @@ class DateDetailViewController: UIViewController {
         lineView = UIView(frame: CGRect(x: 35, y: 0, width: 1, height: eventTableView.contentSize.height))
         lineView.backgroundColor = Config.getColor(red: 130, green: 219, blue: 5)
         self.view.insertSubview(lineView, belowSubview: eventTableView)
-        
-        blankView = BlankView(frame: CGRect(x: 0, y: Config.screenWidth, width: Config.screenWidth, height: Config.screenHeight - Config.screenWidth))
     }
     
     override func didReceiveMemoryWarning() {
@@ -101,6 +111,31 @@ extension DateDetailViewController : UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "削除"
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let event = dataArray?[indexPath.row]
+        dataArray?.remove(at: indexPath.row)
+        DBHelper.deleteEvent(event!)
+        tableView.reloadData()
+        UIView.animate(withDuration: 0.3) {
+            self.lineView.frame = CGRect(x: 35, y: 0, width: 1, height: self.eventTableView.contentSize.height)
+        }
+        if dataArray?.count == 0 {
+            blankView = BlankView(frame: CGRect(x: 0, y: Config.screenWidth, width: Config.screenWidth, height: Config.screenHeight - Config.screenWidth))
+            eventTableView.addSubview(blankView!)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.handleEventNotification), object: nil)
+        }
+    }
+    
+    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= (Config.screenWidth-128) {
@@ -133,14 +168,14 @@ extension DateDetailViewController {
         do {
             let array = try DBHelper.shared.manageObjectContext.fetch(request) as! [Events]
             if array.count != 0 {
-                self.dataArray = [Events]()
                 self.dataArray = array
                 DispatchQueue.main.async {
                     self.eventTableView.reloadData()
                     self.lineView.frame = CGRect(x: 35, y: 0, width: 1, height: self.eventTableView.contentSize.height)
                 }
             } else {
-                eventTableView.addSubview(blankView)
+                blankView = BlankView(frame: CGRect(x: 0, y: Config.screenWidth, width: Config.screenWidth, height: Config.screenHeight - Config.screenWidth))
+                eventTableView.addSubview(blankView!)
             }
         } catch let error as NSError {
             print("DateDetailViewController fetch error : \(error)")
