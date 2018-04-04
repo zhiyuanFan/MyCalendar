@@ -23,7 +23,7 @@ class DateDetailViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         self.automaticallyAdjustsScrollViewInsets = false
         self.dataArray = [Events]()
-        setupRightBarButton()
+//        setupRightBarButton()
         setupSubViews()
         if let date = self.date {
             fetchEvents(date: date)
@@ -88,6 +88,26 @@ class DateDetailViewController: UIViewController {
         lineView = UIView(frame: CGRect(x: 35, y: 0, width: 1, height: eventTableView.contentSize.height))
         lineView.backgroundColor = Config.getColor(red: 130, green: 219, blue: 5)
         self.view.insertSubview(lineView, belowSubview: eventTableView)
+        
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(moveAction(pan:)))
+        let btn = UIButton(type: .custom)
+        btn.setImage(UIImage(named: "pencil"), for: .normal)
+        btn.backgroundColor = Config.getColor(red: 117, green: 103, blue: 248)
+        btn.addTarget(self, action: #selector(addBtnOnClick), for: .touchUpInside)
+        btn.layer.cornerRadius = 22
+        btn.layer.shadowColor = UIColor.lightGray.cgColor
+        btn.layer.shadowOpacity = 1
+        btn.layer.shadowOffset = CGSize(width: 0, height: 3)
+        btn.frame = CGRect(x: Config.screenWidth - 80, y: Config.screenHeight - 80, width: 44, height: 44)
+        btn.addGestureRecognizer(pan)
+        self.view.addSubview(btn)
+    }
+    
+    @objc func moveAction(pan: UIPanGestureRecognizer) {
+        let point = pan.translation(in: self.view)
+        guard let center = pan.view?.center else { return }
+        pan.view?.center = CGPoint(x: center.x + point.x, y: center.y + point.y)
+        pan.setTranslation(CGPoint.zero, in: self.view)
     }
     
     override func didReceiveMemoryWarning() {
